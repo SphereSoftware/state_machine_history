@@ -1,0 +1,7 @@
+Description:
+	The state machine log generator creates a migration to add the log table.
+
+Example:
+    ./script/generate state_machine_log_second add_log_table
+
+    This will create a migration in db/migrate/.  Run "rake db:migrate" to update your database.

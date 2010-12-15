@@ -1,0 +1,71 @@
+= state_machine logger
+state_machine_logger is an extension of the state_machine[https://github.com/pluginaweek/state_machine] gem,
+that logs all transitions from the one state to another state.
+
+== Install
+  gem install state_machine_logger
+
+=== For Rails version < 3
+In environment.rb:
+  Rails::Initializer.run do |config|
+    ...
+    config.gem 'acts_as_audited'
+    ...
+  end
+Generate the migration:
+  script/generate state_machine_log_second add_log_table
+Run the migration
+  rake db:migrate
+
+=== For Rails version >=3
+In Gemfile
+  gem 'state_machine_logger'
+Generate the migration:
+  rails generate state_machine_log add_log_table
+Run the migration
+  rake db:migrate
+
+== Usage
+This gem adds logging function to the state_machine gem.
+Below is an example of the features offered:
+
+=== Class definition
+
+  class Order
+    state_machine :initial => :not_selected do
+      #function that add logger function to the state machine
+      logger
+
+      event :choose do
+        transition :not_selected => :selected
+      end
+      event :add_to_basket do
+        transition :selected => :in_basket
+      end
+      event :pay do
+        transition :in_basket => :paid
+      end
+      event :to_send do
+        transition :paid => :sent
+      end
+    end
+  end
+
+=== Using extensions
+
+  order = Order.new
+  order.choose # After this transition logger function adds to the state_machine_log
+               # table in the database new data. 
+  order.visit?(:not_selected, :selected) # Function determines the object located at the not_selected state before
+                                         # 'selected' state or not located
+  order.visit?(:not_selected) # The same as the previous example. In this example second argument of function is current state
+
+== Credits
+
+=== Project Team
+* Mykhaylo Sorochan - Project Manager
+* Dmitriy Landberg - Software Developer
+* Nataliya Shatokhina - Tester
+* Sergey Mostovoy - Extension idea
+
+Copyright (c) 2010 {Sphere Consulting Inc.}[http://www.sphereinc.com], released under the MIT license (see LICENSE).
