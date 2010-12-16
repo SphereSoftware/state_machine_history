@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name = "state_machine_logger"
+  spec.name = "state_machine_history"
   spec.version = '0.2.1'
   spec.platform = Gem::Platform::RUBY
   spec.summary = "Extensions for the state_machine gem"
@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.add_dependency('state_machine', '>= 0.9.4')
   spec.author = "Sphere Consulting Inc."
-  spec.homepage = 'https://github.com/SphereConsultingInc/state_machine_ext/'
+  spec.homepage = 'https://github.com/SphereConsultingInc/state_machine_history/'
   spec.description = <<END_DESC
   Extensions for the state_machine gem
 END_DESC

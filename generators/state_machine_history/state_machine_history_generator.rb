@@ -1,7 +1,7 @@
 require 'rails/generators'
 require 'rails/generators/migration'
 
-class StateMachineLogGenerator < Rails::Generators::Base
+class StateMachineHistoryGenerator < Rails::Generators::Base
   include Rails::Generators::Migration
   
   def self.source_root
@@ -17,6 +17,6 @@ class StateMachineLogGenerator < Rails::Generators::Base
   end
    
   def create_migration_file
-    migration_template 'create_machine_log.rb', 'db/migrate/create_machine_log.rb'
+    migration_template 'create_machine_history.rb', 'db/migrate/create_machine_history.rb'
   end
 end
