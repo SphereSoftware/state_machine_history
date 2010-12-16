@@ -1,5 +1,5 @@
 class MachineLog < ActiveRecord::Base
-  set_table_name :machine_logs
+  belongs_to :logable, :polymorphic => true
 
-  validates_presence_of :class_name, :event, :from_state, :owner_id, :to_state
+  validates_presence_of :event, :from_state, :to_state
 end

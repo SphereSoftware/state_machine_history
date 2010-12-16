@@ -3,7 +3,6 @@ require 'lib/machine_log'
 require 'rubygems'
 require 'state_machine'
 
-
 module StateMachineLogger
 
   class InvalidState < StandardError
@@ -13,8 +12,12 @@ module StateMachineLogger
     base.class_eval do
       
       def logger
+        self.owner_class.class_eval do
+          has_one :machine_log, :as => :logable
+        end
+        
         before_transition(any => any) do |object, transition|
-          MachineLog.create(:owner_id => object.id, :class_name => object.class.name,
+          MachineLog.create(:logable => object,
             :from_state=>transition.from_name.to_s, :to_state=>transition.to_name.to_s,
             :event=>transition.event.to_s )
         end
@@ -38,14 +41,14 @@ module StateMachineLogger
           is_to_state = machine.states.detect {|item| item.name.to_s == to_state}
           raise InvalidState, "\"#{to_state}\" is an unknown state machine state" unless is_to_state
           
-          date = MachineLog.find(:last, :conditions => ["owner_id = ? and
+          date = MachineLog.find(:last, :conditions => ["logable_id = ? and
             to_state = ?", object.id, to_state])
 
           next false if date.nil?
 
           date = date.created_at
           is_state = MachineLog.find(:last,
-            :conditions => ["owner_id = ? and from_state = ? and created_at <= ?",
+            :conditions => ["logable_id = ? and from_state = ? and created_at <= ?",
             object.id, from_state, date])
           
           is_state ? true : false
