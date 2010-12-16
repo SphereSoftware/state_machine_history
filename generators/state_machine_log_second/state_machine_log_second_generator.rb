@@ -1,4 +1,4 @@
-class StateMachineLogSecondGenerator < Rails::Generator::Base
+class StateMachineLogSecondGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
       m.migration_template "create_machine_log.rb", "db/migrate"

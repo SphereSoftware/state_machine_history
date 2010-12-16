@@ -1,8 +1,10 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__) + "/../"))
 require 'lib/machine_log'
+require 'rubygems'
+require 'state_machine'
 
 
-module StateMachineLog
+module StateMachineLogger
 
   class InvalidState < StandardError
   end
@@ -12,10 +14,9 @@ module StateMachineLog
       
       def logger
         before_transition(any => any) do |object, transition|
-          log = MachineLog.new(:owner_id => object.id, :class_name => object.class,
-            :from_state=>transition.from_name, :to_state=>transition.to_name,
-            :event=>transition.event )
-          log.save
+          MachineLog.create(:owner_id => object.id, :class_name => object.class.name,
+            :from_state=>transition.from_name.to_s, :to_state=>transition.to_name.to_s,
+            :event=>transition.event.to_s )
         end
       end
       
@@ -57,5 +58,5 @@ module StateMachineLog
 end
 
 class StateMachine::Machine
-  include StateMachineLog
+  include StateMachineLogger
 end

@@ -1,4 +1,4 @@
-class CreateMachineLog < ActiveRecord::Migration
+class <%= class_name %> < ActiveRecord::Migration
   def self.up
     create_table :machine_logs do |t|
       t.column :owner_id, :integer
