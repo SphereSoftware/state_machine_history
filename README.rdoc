@@ -1,39 +1,37 @@
 = state_machine_history
 state_machine_history is an extension of the state_machine[https://github.com/pluginaweek/state_machine] gem,
-that logs all transitions from the one state to another state.
+that logs transitions between states and allows to check if a state was visited earlier.
 
 == Install
   gem install state_machine_history
 
-=== For Rails version < 3
-In environment.rb:
-  Rails::Initializer.run do |config|
-    ...
-    config.gem 'state_machine_history'
-    ...
-  end
+=== Ruby On Rails 2.x
+Add the gem dependency to environment.rb:
+  ...
+  config.gem 'state_machine_history'
+  ...
 Generate the migration:
   script/generate state_machine_history_2 create_machine_history
 Run the migration
   rake db:migrate
 
-=== For Rails version >=3
-In Gemfile
+=== Ruby On Rails 3
+In Gemfile:
   gem 'state_machine_history'
 Generate the migration:
   rails generate state_machine_history create_machine_history
-Run the migration
+Run the migration:
   rake db:migrate
 
 == Usage
 This gem adds logging function to the state_machine gem.
-Below is an example of the features offered:
+Sample:
 
 === Class definition
 
   class Order
     state_machine :initial => :not_selected do
-      # Function that add logger function to the state machine
+      # Switch on state machine logging 
       track_history
 
       event :choose do
@@ -54,13 +52,11 @@ Below is an example of the features offered:
 === Using extensions
 
   order = Order.new
-  # After this transition logger function adds to the machine_logs
-  # table in the database new data.
+  # Perform transition (state change is logged)
   order.choose
-  #Function determines the object is located or no at the not_selected
-  # state before 'selected' state.
+  # Find whether order has visited not_selected state before selected one
   order.was_there?(:not_selected, :selected) #=> true
-  # The same as the previous example. In this example second argument of function is current state
+  # Find whether order has visited not_selected state before the current one
   order.was_there?(:not_selected)  #=> true
 
 == Credits
