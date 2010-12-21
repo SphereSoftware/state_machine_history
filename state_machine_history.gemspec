@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = "state_machine_history"
-  spec.version = '0.2.1'
+  spec.version = '0.2.2'
   spec.platform = Gem::Platform::RUBY
   spec.summary = "state_machine history for Ruby On Rails applications"
   spec.files =  Dir["**/*"].reject!{ |fn| true if fn =~ /^test.rb|.\.git|\.gem/}
